@@ -20,11 +20,4 @@
 		<nature>com.adobe.flexbuilder.project.apollonature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>[source path] src</name>
-			<type>2</type>
-			<location>/Users/shodai/Documents/AS3ライブラリ/AS3Twitter用MinimalComps-0.97-ja/src</location>
-		</link>
-	</linkedResources>
 </projectDescription>
