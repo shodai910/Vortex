@@ -12,51 +12,29 @@ package {
 	[SWF(width=465, height=465, backGroundColor=0xeeeeee, frameRage=60)]	
 	public class Vortex extends Sprite {
 		private var circles3D    :Array = []; // x, y, z, scale, anggle, dir
-		private var numCircles   :int = 0;
-		private var focalLength  :int = 100;
+		private var numCircles   :int   = 0;
+		private var focalLength  :int   = 100;
 		
-		// 画面サイズ、画面の中央値
 		private var sw:int, sh :int;
 		private var centerX:int, centerY:int;
 		
-		// loop()で使用する変数
-		private var ix:int;
-		private var iy    :int;
-		private var iz    :int;
-		private var iScale:int;
-		private var iAngle:int;
-		private var iDir  :int;
-		private var dir   :Boolean
-		private var angle :Number
-		private var zPos  :Number;
-		private var scale :Number;
-		private var xPos  :Number;
-		private var yPos  :Number;
-		private var radius:uint = 500;
-		
 		public function Vortex() {
-			// 画面サイズ、中央値取得
 			sw = stage.stageWidth, sh = stage.stageHeight;
-			centerX = sw >> 1, centerY = sh >> 1;
+			centerX = sw * .5, centerY = sh * .5;
 			
-			// 球の生成
-			for(var i:int = 0; i < 1; i++) {
-				addCircle(centerX, centerY, 0, i);
+			for(var i:int = 0; i < 40; i++) {
+				addCircle(sw * .5, sh * .5, 0, i);
 			}
 			
-			// 毎フレームloop()を実行
 			addEventListener(Event.ENTER_FRAME, loop);
 		}
 		
-		// 球を生成する
 		private function addCircle(x:Number, y:Number, z:Number, angle:Number, dir:Boolean = true):void {
 			circles3D.push(x, y, z, 1, angle, dir);
 			numCircles++;
 		}
 		
-		// 背景及び球の描画
 		private function loop(evt:Event):void {
-			// 背景の描画
 			with(graphics){
 				clear();
 				beginFill(0xeeeeee);
@@ -64,29 +42,26 @@ package {
 				endFill();
 			}
 			
-			// 球の移動と描画
 			for(var i:int = 0; i < numCircles; i++) {
-				// 各値を設定
-				ix     = i * 6;
-				iy     = ix + 1;
-				iz     = ix + 2;
-				iScale = ix + 3;
-				iAngle = ix + 4;
-				iDir   = ix + 5;
+				var ix:int     = i * 6;
+				var iy:int     = ix + 1;
+				var iz:int     = ix + 2;
+				var iScale:int = ix + 3;
+				var iAngle:int = ix + 4;
+				var iDir  :int = ix + 5;
 				
-				dir    = circles3D[iDir];
-				angle  = circles3D[iAngle];
+				var dir:Boolean  = circles3D[iDir];
+				var angle:Number = circles3D[iAngle];
 				
 				angle += .05;
 				
 				if(40 <= Math.abs(angle)) angle = 0;
 				
-				zPos  = angle * 50;
-				scale = focalLength / (focalLength + zPos);
+				var zPos :Number = angle * 50;
+				var scale:Number = focalLength / (focalLength + zPos);
+				var xPos :Number = (((500) * Math.sin(angle)) + (mouseX-centerX)*10) * Math.abs(scale) + (sw-mouseX);
+				var yPos :Number = (((500) * Math.cos(angle)) + (mouseY-centerY)*10) * Math.abs(scale) + (sw-mouseY);
 				
-				xPos  = ((radius * Math.sin(angle)) + (mouseX-centerX) * 10) * Math.abs(scale) + (sw - mouseX);
-				yPos  = ((radius * Math.cos(angle)) + (mouseY-centerY) * 10) * Math.abs(scale) + (sw - mouseY);
-
 				
 				circles3D[ix]     = xPos;
 				circles3D[iy]     = yPos;
